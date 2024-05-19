@@ -1,13 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from '../axios/axios'
 const Home = () => {
-  const getflights = async ()=>{
-    const {data} = await axios.get('/flights')
-    console.log(data.data);
-  }
-  useEffect(()=>{
-    getflights()
-  },[])
+  
   return (
     <div className='w-full h-[120vh]'>
       <nav className='w-full h-[8vh] text-white flex items-center justify-between px-[25vh] bg-[#2874F0] '>
@@ -24,12 +18,12 @@ const Home = () => {
                     <form className='flex gap-[1.2vh] items-baseline justify-center' action="">
                     <div className='flex relative items-baseline gap-1'>
                     <h2 className='flex flex-col relative'>
-                      <div className='w-[30vh] h-[35vh] top-[7vh] shadow-md border-[2px] bg-white absolute'>
+                      {/* <div className='w-[30vh] h-[35vh] top-[7vh] shadow-md border-[2px] bg-white absolute'>
                         <h2 className='m-1 text-[1.8vh] font-medium text-slate-800'>RECENT SEARCHES</h2>
                         <div>
 
                         </div>
-                      </div>
+                      </div> */}
                     <input style={{borderRight:"none"}} className='cursor-pointer rounded-[2px] outline-none  px-3 py-[1.3vh]  text-[2.3vh] border-[#999] border-[1px]' type="text" placeholder='From' />
                     <h3 className='text-[2vh] ml-1 text-[#777]'>Any worldwide city or airport</h3>
                     </h2>
