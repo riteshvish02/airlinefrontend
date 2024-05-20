@@ -4,6 +4,7 @@ import axios from '../../axios/axios'
 import { toast } from 'react-toastify'
 function Create() {
   const [Airportdata,setAirportdata] = useState(null)
+  const [Agencydata,setAgencydata] = useState(null)
   const [Agency,setagency] = useState("")
   const [modelNumber,setmodelNumber] = useState("")
   const [capacity,setcapacity] = useState("")
@@ -12,6 +13,7 @@ function Create() {
   const [address,setaddress] = useState("")
   const [citycode,setcitycode] = useState("")
   const [city,setcity] = useState("")
+  
   const AgencyformHander = async (e)=>{
     e.preventDefault()
     try {
@@ -20,6 +22,8 @@ function Create() {
     setagency('')
     setcapacity('')
     setmodelNumber('')
+    getAirport()
+    getAgency()
     toast.success("Agency created successfully")
     } catch (error) {
       console.log(error);
@@ -48,6 +52,7 @@ function Create() {
     setcitycode('')
     setaddress('')
     setcityID('')
+    getAirport()
     toast.success("airport created successfully")
     } catch (error) {
       console.log(error);
@@ -59,13 +64,24 @@ function Create() {
     console.log(data.data);
     setAirportdata(data.data)
   }
+  const getAgency = async () => {
+    const {data} = await axios.get('/airplanes')
+    console.log(data.data);
+    setAgencydata(data.data)
+  }
   const airportDeleteHandler = async (id) => {
      const d = axios.delete(`/airports/${id}`)
+     getAirport()
+   }
+   const agencyDeleteHandler = async (id) => {
+     const d = axios.delete(`/airplanes/${id}`)
+     getAgency()
    }
   useEffect(()=>{
       getAirport()
+      getAgency()
   },[])
-  return Airportdata ?   (
+  return Airportdata && Agencydata ?   (
     <>
       <div className='w-full h-screen '>
         <nav className='w-full h-[8vh] items-center justify-between flex px-[15vh] bg-blue-500'>
@@ -111,7 +127,7 @@ function Create() {
         </form>
 
        <div className='w-[96vw] m-auto h-[1.2px] mt-4 bg-black'></div>
-       <div className='w-full min-h-[50vh]'>
+       <div className='w-full min-h-[30vh]'>
         <h3 className='text-3xl font-semibold ml-10 mt-3 '>Airports data</h3>
          {
            Airportdata.map((airport,index)=>{
@@ -145,28 +161,28 @@ function Create() {
        <div className='w-full min-h-[50vh]'>
         <h3 className='text-3xl font-semibold ml-10 mt-3 '>Agency data</h3>
          {
-           Airportdata.map((airport,index)=>{
+           Agencydata.map((agency,index)=>{
                return(
                 <div className='w-[85vw] rounded-md gap-4  items-center justify-between flex px-[5vh] border-red-600 border-[2px] py-6 m-auto mt-4' >
                 <h2 className='text-[2.8vh] font-medium'>
-                  Id : <span className='text-black'>{airport.id}</span>
+                  Id : <span className='text-black'>{agency.id}</span>
                 </h2>
                 <h2 className='text-[2.8vh] font-medium'>
-                  Name : <span className='text-black text-[2.2vh]'>{airport.name}</span>
+                  Name : <span className='text-black text-[2.2vh]'>{agency.agencyname}</span>
                 </h2>
                 <h2 className='text-[2.8vh] font-medium'>
-                  Code : <span className='text-black text-[2.2vh]'>{airport.code}</span>
+                  ModelNumber : <span className='text-black text-[2.2vh]'>{agency.modelNumber}</span>
                 </h2>
                 <h2 className='text-[2.8vh] font-medium'>
-                  Address : <span className='text-black text-[2.2vh]'>{airport.address}</span>
+                  Capacity : <span className='text-black text-[2.2vh]'>{agency.capacity}</span>
                 </h2>
                 <div className='flex  gap-4 justify-between'>
-                  <button onClick={()=>airportDeleteHandler(airport.id)} className='px-3 flex h-[7vh] gap-2 items-center bg-red-500 text-white text-[2.5vh] rounded'>
+                  <button onClick={()=>agencyDeleteHandler(agency.id)} className='px-3 flex h-[7vh] gap-2 items-center bg-red-500 text-white text-[2.5vh] rounded'>
                     <h2>Delete </h2> <i class="ri-chat-delete-fill"></i>
                   </button>
-                  <button className='px-2 flex h-[7vh] gap-2 items-center bg-blue-500 text-white text-[2.5vh] rounded'>
+                  <Link to={`/agency/${agency.id}`} className='px-2 flex h-[7vh] gap-2 items-center bg-blue-500 text-white text-[2.5vh] rounded'>
                    <h2> update </h2><i class="ri-pencil-fill"></i>
-                  </button>
+                  </Link>
                 </div>
               </div>
                )
