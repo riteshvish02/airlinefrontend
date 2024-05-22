@@ -18,7 +18,7 @@ function Create() {
     e.preventDefault()
     try {
     const {data} = await axios.post('/airplanes',{AgencyName:Agency,modelNumber:modelNumber,capacity:capacity})
-    console.log(data);
+    // console.log(data);
     setagency('')
     setcapacity('')
     setmodelNumber('')
@@ -36,7 +36,7 @@ function Create() {
     e.preventDefault()
     try {
     const {data} = await axios.post('/cities',{name:city})
-    console.log(data);
+    // console.log(data);
     setcity('')
     toast.success("city created successfully")
     } catch (error) {
@@ -47,7 +47,7 @@ function Create() {
     e.preventDefault()
     try {
     const {data} = await axios.post('/airports',{name:airport,code:citycode,cityId:cityID,address:address})
-    console.log(data);
+    // console.log(data);
     setairport('')
     setcitycode('')
     setaddress('')
@@ -66,16 +66,21 @@ function Create() {
   }
   const getAgency = async () => {
     const {data} = await axios.get('/airplanes')
-    console.log(data.data);
+    // console.log(data.data);
     setAgencydata(data.data)
   }
-  const airportDeleteHandler = async (id) => {
-     const d = axios.delete(`/airports/${id}`)
-     getAirport()
+  const airportDeleteHandler = async (delid) => {
+     const d = await axios.delete(`/airports/${delid}`)
+      
+     
    }
    const agencyDeleteHandler = async (id) => {
-     const d = axios.delete(`/airplanes/${id}`)
-     getAgency()
+     const d = await axios.delete(`/airplanes/${id}`)
+      var dets = Agencydata.filter((item,index)=>{
+        return item.id !== id
+      })
+    setAgencydata(dets)
+    toast.success("agency deleted successfully")
    }
   useEffect(()=>{
       getAirport()
@@ -84,15 +89,7 @@ function Create() {
   return Airportdata && Agencydata ?   (
     <>
       <div className='w-full h-screen '>
-        <nav className='w-full h-[8vh] items-center justify-between flex px-[15vh] bg-blue-500'>
-          <h2 className='text-white text-[3vh] font-medium'>Flight And Bookings</h2>
-          <div className=' flex items-center justify-center gap-3'>
-            <Link to='/' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Agency</Link>
-            <Link to='/passenger' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Passenger</Link>
-            <Link to='/flights' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Flights</Link>
-            <Link to='/bookings' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Bookings</Link>
-          </div>
-        </nav>
+       
         <h3 className='text-3xl font-semibold ml-10 mt-3 '>Admin Panel for Agencies and Airports</h3>
       <form onSubmit={AgencyformHander} className='ml-10 mt-6 w-[70vh]  p-10 h-[40vh] rounded flex flex-col items-start gap-3 border-[2px] border-slate-300' action="">
             <h2 className='text-[2.5vh] font-medium'>Create Agency</h2>
