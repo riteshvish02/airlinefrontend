@@ -17,20 +17,20 @@ function Passenger() {
   const userformHander = async (e)=>{
     e.preventDefault()
     try {
-        // const {data} = await axios.post('/flights',{flightNumber,AgenciesId,arrivalAirportId,departureAirportId,arrivalTime,departureTime,boardingGate,totalSeats,price})
-        const {data} = await axios.post('/flights',{flightNumber,AgenciesId,arrivalAirportId,departureAirportId,arrivalTime,departureTime,boardingGate,totalSeats,price})
+            // const {data} = await axios.post('/flights',{flightNumber,AgenciesId,arrivalAirportId,departureAirportId,arrivalTime,departureTime,boardingGate,totalSeats,price})
+        const {data} = await axios.post('/flights',{flightNumber,AgencyId:AgenciesId,arrivalAirportId,departureAirportId,arrivalTime,departureTime,boardingGate,totalSeats,price})
     console.log(data);
     
     toast.success("user created successfully")
-    } catch (error) {
+    } catch (error) {   
       console.log(error);
     }
   }
-//   const getflightdata = async () => {
-//     const {data} = await axios.get('/flights')
-//     setflightdata(data.data)
-//     console.log(data);
-//   }
+  const getflightdata = async () => {
+    const {data} = await axios.get('/flights')
+    setflightdata(data.data)
+    console.log(data);
+  }
 //   const userDeleteHandler = async (id) => {
 //     const d = await axios.delete(`/user/${id}`)
 //      var dets = userdata.filter((item,index)=>{
@@ -41,9 +41,9 @@ function Passenger() {
     
 //   }
  
-//   useEffect(()=>{
-//     getflightdata()
-//   },[])
+  useEffect(()=>{
+    getflightdata()
+  },[])
   return   (
     <>
       <div className='w-full h-screen '>
