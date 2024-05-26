@@ -56,6 +56,7 @@ function Create() {
     toast.success("airport created successfully")
     } catch (error) {
       console.log(error);
+      toast.error("Axios error")
     }
   }
 
@@ -81,6 +82,7 @@ function Create() {
       })
     setAgencydata(dets)
     toast.success("agency deleted successfully")
+    
    }
   useEffect(()=>{
       getAirport()

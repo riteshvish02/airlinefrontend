@@ -8,6 +8,9 @@ import Update from './components/admin/Update'
 import Passenger from './components/admin/Passenger'
 import Updatepass from './components/admin/Updatepass'
 import Flights from './components/admin/Flights'
+import Updateflights from './components/admin/Updateflights'
+import Updatebooking from './components/admin/updateBooking'
+import Query from './components/admin/Query'
 const App = () => {
   return (
     <div>
@@ -18,6 +21,7 @@ const App = () => {
             <Link to='/passenger' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Passenger</Link>
             <Link to='/flights' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Flights</Link>
             <Link to='/bookings' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Bookings</Link>
+            <Link to='/query' className='text-white text-[2.5vh] font-semibold px-3 py-2 rounded-md bg-red-500'>Queries</Link>
           </div>
         </nav>
       <Routes>
@@ -25,10 +29,13 @@ const App = () => {
         <Route path='/passenger' element={<Passenger/>}></Route>
         <Route path='/agency/:id' element={<Update/>}></Route>
         <Route path='/update/pass/:id' element={<Updatepass/>}></Route>
+        <Route path='/update/flight/:id' element={<Updateflights/>}></Route>
+        <Route path='/update/booking/:id' element={<Updatebooking/>}></Route>
         <Route path='/search' element={<Search/>}></Route>
-        <Route path='/booking' element={<Booking/>}></Route>
+        <Route path='/bookings' element={<Booking/>}></Route>
         <Route path='/home' element={<Home/>}></Route>
         <Route path='/flights' element={<Flights/>}></Route>
+        <Route path='/query' element={<Query/>}></Route>
       </Routes>
     </div>
   )

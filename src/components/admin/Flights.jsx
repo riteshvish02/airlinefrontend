@@ -20,36 +20,44 @@ function Passenger() {
             // const {data} = await axios.post('/flights',{flightNumber,AgenciesId,arrivalAirportId,departureAirportId,arrivalTime,departureTime,boardingGate,totalSeats,price})
         const {data} = await axios.post('/flights',{flightNumber,AgencyId:AgenciesId,arrivalAirportId,departureAirportId,arrivalTime,departureTime,boardingGate,totalSeats,price})
     console.log(data);
-    
+    setflightNumber('')
+    setAgenciesId('')
+    setarrivalAirportId('')
+    setdepartureAirportId('')
+    setarrivalTime('')
+    setdepartureTime('')
+    setprice('')
+    setboardingGate('')
+    settotalSeats('')
+    getflightdata()
     toast.success("flight created successfully")
     } catch (error) {   
       console.log(error);
+      toast.error(error.response.data.error.Explanation)
     }
   }
   const getflightdata = async () => {
     const {data} = await axios.get('/flights')
     setflightdata(data.data)
-    const a = new Date()
     console.log(data.data);
   }
-//   const userDeleteHandler = async (id) => {
-//     const d = await axios.delete(`/user/${id}`)
-//      var dets = userdata.filter((item,index)=>{
-//        return item.id !== id
-//      })
-//      toast.success("user deleted successfully")
-//    setuserdata(dets)
-    
-//   }
+  const flightDeleteHandler = async (id) => {
+    const d = await axios.delete(`/flights/${id}`)
+    var dets = flightdata.filter((item,index)=>{
+      return item.id !== id
+    })
+    toast.success("flights deleted successfully")
+    setflightdata(dets)
+ }
  
   useEffect(()=>{
     getflightdata()
   },[])
-  return  flightdata && (
+  return   (
     <>
       <div className='w-full h-screen '>
         
-        <h3 className='text-3xl font-semibold ml-10 mt-3 '>Admin Panel for users</h3>
+        <h3 className='text-3xl font-semibold ml-10 mt-3 '>Admin Panel for flights</h3>
       
 
         
@@ -77,7 +85,7 @@ function Passenger() {
 
        <div className='w-[96vw] m-auto h-[1.2px] mt-4 bg-black'></div>
        <div className='w-full min-h-[30vh]'>
-        <h3 className='text-3xl font-semibold ml-10 mt-3 '>Users data</h3>
+        <h3 className='text-3xl font-semibold ml-10 mt-3 '>Flights data</h3>
          { flightdata ? 
            flightdata.map((flight,index)=>{
               const deprdate = new Date(flight.departureTime)
@@ -86,7 +94,7 @@ function Passenger() {
                 <div className='w-[85vw] flex-col  rounded-md gap-4  items-center justify-between flex px-[5vh] border-red-600 border-[2px] py-[9vh] m-auto mt-4' >
                 <div className='flex items-center justify-between gap-[10vh]'>
                 <h2 className='text-[2.8vh] font-medium'>
-                  FlightId : <span className='text-black'>{flight.id}</span>
+                   FlightId : <span className='text-black'>{flight.id}</span>
                 </h2>
                 <h2 className='text-[2.8vh] font-medium'>
                   AgencyName : <span className='text-black text-[2.2vh]'>{flight.AgencyDetail.agencyname}</span>
@@ -99,21 +107,42 @@ function Passenger() {
                  Price : <span className='text-black text-[2.2vh]'>{flight.price}</span>
                 </h2>
                 </div>
-                <hr className='bg-red-300' />
-                <div className='flex items-center justify-between gap-[10vh]'>
-                
-                <h2 className='text-[2.8vh] font-medium'>
-                  DepartureTime : <span className='text-black text-[2.2vh]'>{(deprdate).toString()}</span>
-                </h2>
-                <h2 className='text-[2.8vh] font-medium'>
-                ArrivalTime : <span className='text-black text-[2.2vh]'>{(arrdate).toString()}</span>
-                </h2>
+                <div className='w-[80vw] h-[2px] bg-red-500'></div>
+                <div className='flex items-center justify-between gap-[10vh] bg-slate-300 p-2 rounded py-5'>
+               <div className='flex flex-col gap-2'>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      DepartureAirport : <span className='text-black text-[2.2vh]'>{flight.DepartureAirport.name} ({flight.DepartureAirport.code})</span>
+                  </h2>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      DepartureTime : <span className='text-black text-[2.2vh]'>{(deprdate).toString()}</span>
+                  </h2>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      City : <span className='text-black text-[2.2vh]'>{flight.DepartureAirport.City.name} </span>
+                  </h2>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      Address : <span className='text-black text-[2.2vh]'>{flight.DepartureAirport.address}</span>
+                  </h2>
+               </div>
+                <div className='flex flex-col gap-2 '>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      ArrivalAirport : <span className='text-black text-[2.2vh]'>{flight.ArrivalAirport.name} ({flight.ArrivalAirport.code})</span>
+                  </h2>
+                  <h2 className='text-[2.8vh] font-medium'>
+                  ArrivalTime : <span className='text-black text-[2.2vh]'>{(arrdate).toString()}</span>
+                  </h2>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      City : <span className='text-black text-[2.2vh]'>{flight.ArrivalAirport.City.name} </span>
+                  </h2>
+                  <h2 className='text-[2.8vh] font-medium'>
+                      Address : <span className='text-black text-[2.2vh]'>{flight.ArrivalAirport.address}</span>
+                  </h2>
+                </div>
                 </div>
                 <div className='flex  gap-4 justify-between'>
-                  <button onClick={()=>userDeleteHandler(flight.id)} className='px-3 flex h-[7vh] gap-2 items-center bg-red-500 text-white text-[2.5vh] rounded'>
+                  <button onClick={()=>flightDeleteHandler(flight.id)} className='px-3 flex h-[7vh] gap-2 items-center bg-red-500 text-white text-[2.5vh] rounded'>
                     <h2>Delete </h2> <i class="ri-chat-delete-fill"></i>
                   </button>
-                  <Link to={`/update/pass/${flight.id}`} className='px-2 flex h-[7vh] gap-2 items-center bg-blue-500 text-white text-[2.5vh] rounded'>
+                  <Link to={`/update/flight/${flight.id}`} className='px-2 flex h-[7vh] gap-2 items-center bg-blue-500 text-white text-[2.5vh] rounded'>
                    <h2> update </h2><i class="ri-pencil-fill"></i>
                   </Link>
                 </div>

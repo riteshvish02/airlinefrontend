@@ -24,6 +24,8 @@ function Passenger() {
     toast.success("user created successfully")
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.error.Explanation)
+
     }
   }
   const getuserdata = async () => {

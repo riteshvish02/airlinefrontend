@@ -20,6 +20,7 @@ function Update() {
         toast.success("Agency updated successfully")
         } catch (error) {
           console.log(error);
+       toast.error(error.response.data.error.Explanation)
         }
       }
     const getAgency = async ()=>{
@@ -29,6 +30,7 @@ function Update() {
             setAgencydata(data.data)
         } catch (error) {
             console.log(error);
+
         }
     }
     useEffect(()=>{
